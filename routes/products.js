@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 
 // create new product
 router.post('/', (req, res) => {
-    const { name } = req.body.name;
+    const { name } = req.body;
 
     const newProduct = {
         id: products.length + 1,
