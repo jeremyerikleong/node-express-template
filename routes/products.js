@@ -1,7 +1,11 @@
 import express from 'express';
-import { products } from '../db/index.js';
 
 const router = express.Router();
+
+let products = [
+    { id: 1, name: "item 1" },
+    { id: 2, name: "item 2" }
+]
 
 // get all products
 router.get('/', (req, res) => {
@@ -42,12 +46,32 @@ router.post('/', (req, res) => {
 
 // update existing product
 router.put('/:id', (req, res) => {
+    const id = +req.params.id;
+    const product = products.find(product => product.id === id);
 
+    if (!product) {
+        return res.status(404).json({ status: 'fail', message: `A product with the id of ${id} was not found` });
+    }
+
+    product.name = req.body.name;
+    res.status(200).json({ status: 'success', message: 'Successfully update product detail' });
 });
 
 // delete selected product
 router.delete('/:id', (req, res) => {
+    const id = +req.params.id;
+    const product = products.find(product => product.id === id);
 
+    if (!product) {
+        return res.status(404).json({ status: 'fail', message: `A product with the id of ${id} was not found` });
+    }
+
+    products = products.filter(product => product.id !== id);
+    res.status(200).json({
+        status: 'success',
+        data: products,
+        message: 'Delete product successfully'
+    });
 });
 
 export default router;
