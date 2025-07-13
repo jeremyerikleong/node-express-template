@@ -1,0 +1,16 @@
+{
+  "name": "express-template",
+  "version": "1.0.0",
+  "description": "a node express template",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server",
+    "dev": "node --watch --env-file=.env server.js"
+  },
+  "author": "jeremy",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
