@@ -16,13 +16,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(logger);
 
+// use static folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 // middleware routes
 app.use('/api/v1/products', productRoutes);
-
-// routes
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
 
 // middleware error handler
 app.use(notFound);
