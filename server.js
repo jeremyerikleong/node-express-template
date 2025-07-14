@@ -17,7 +17,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(logger);
 
 // use static folder
-app.use(express.static(path.join(__dirname, 'public')));
+// rm comment if want to use static html file
+// app.use(express.static(path.join(__dirname, 'public')));
+
+// config for ejs
+// rm comment if want to use ejs template engine
+app.set('view engine', 'ejs');
+app.set('views', 'views');
+
+// render from template engine
+app.get('/', (_, res) => {
+    res.render('index', {
+        title: "EJS Templating",
+        message: "Hello EJS",
+        users: ['John Doe', 'Jane Doe', 'Jessica Doe']
+    });
+});
 
 // middleware routes
 app.use('/api/v1/products', productRoutes);
