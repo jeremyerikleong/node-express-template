@@ -3,6 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import productRoutes from './routes/products.js'
 import logger from './middlewares/logger.js';
+import errorHandler from './middlewares/error.js';
+import notFound from './middlewares/notFound.js'
 
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -21,6 +23,10 @@ app.use('/api/v1/products', productRoutes);
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
+
+// middleware error handler
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`Server is running on port: http://localhost:${PORT}`)

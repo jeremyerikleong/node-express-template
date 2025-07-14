@@ -4,7 +4,7 @@ export default function logger(req, res, next) {
     const methodColors = {
         GET: 'cyan',
         POST: 'green',
-        PUT: 'orange',
+        PUT: 'brightYellow',
         PATCH: 'yellow',
         DELETE: 'red'
     }

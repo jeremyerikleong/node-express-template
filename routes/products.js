@@ -8,7 +8,7 @@ let products = [
 ]
 
 // get all products
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     res.status(200).json({
         status: 'success',
         data: products
@@ -16,19 +16,21 @@ router.get('/', (req, res) => {
 });
 
 // get single product
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     const id = +req.params.id;
     const product = products.find(product => product.id === id);
 
     if (!product) {
-        return res.status(404).json({ status: 'fail', message: `A product with the id of ${id} was not found` });
+        const error = new Error(`A product with the id of ${id} was not found`);
+        error.status = 404;
+        return next(error);
     }
 
     res.status(200).json({ status: 'success', data: product });
 });
 
 // create new product
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     const { name } = req.body;
 
     const newProduct = {
@@ -37,7 +39,9 @@ router.post('/', (req, res) => {
     }
 
     if (!newProduct.name) {
-        return res.status(400).json({ message: 'this field cannot be empty.' })
+        const error = new Error('this field cannot be empty');
+        error.status = 400;
+        return next(error);
     }
 
     products.push(newProduct);
@@ -45,12 +49,14 @@ router.post('/', (req, res) => {
 });
 
 // update existing product
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res, next) => {
     const id = +req.params.id;
     const product = products.find(product => product.id === id);
 
     if (!product) {
-        return res.status(404).json({ status: 'fail', message: `A product with the id of ${id} was not found` });
+        const error = new Error(`A product with the id of ${id} was not found`);
+        error.status = 404;
+        return next(error);
     }
 
     product.name = req.body.name;
@@ -58,12 +64,14 @@ router.put('/:id', (req, res) => {
 });
 
 // delete selected product
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
     const id = +req.params.id;
     const product = products.find(product => product.id === id);
 
     if (!product) {
-        return res.status(404).json({ status: 'fail', message: `A product with the id of ${id} was not found` });
+        const error = new Error(`A product with the id of ${id} was not found`);
+        error.status = 404;
+        return next(error);
     }
 
     products = products.filter(product => product.id !== id);
